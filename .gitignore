@@ -1,0 +1,9 @@
+.tup
+.vscode
+
+obj/*.o
+
+bin/la-rpi3.elf
+bin/kernel8.img
+bin/kernel8.bin
+

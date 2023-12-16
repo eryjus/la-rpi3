@@ -1,0 +1,3 @@
+: ../obj/*.o | ../src/aarch64-elf.ld |> aarch64-elf-gcc -T ../src/aarch64-elf.ld -o la-rpi3.elf -ffreestanding -O2 -nostdlib ../obj/*.o -lgcc |> la-rpi3.elf
+: la-rpi3.elf |> aarch64-elf-objcopy --strip-all %f -O binary kernel8.bin |> kernel8.bin
+: kernel8.bin |> dd if=kernel8.bin of=kernel8.img skip=1024 |> kernel8.img

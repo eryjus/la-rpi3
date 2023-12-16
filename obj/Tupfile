@@ -1,0 +1,3 @@
+: foreach ../src/*.S |> aarch64-elf-as -c %f -o %B.o |> %B.o
+: foreach ../src/*.cc |> aarch64-elf-g++ -ffreestanding -I ../inc -c %f -o %B.o -O2 -Wall -Wextra |> %B.o
+

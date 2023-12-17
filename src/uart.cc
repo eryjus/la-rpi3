@@ -33,7 +33,7 @@ void UartInit(void)
     MmioWrite(GPPUDCLK0, (1<<14) | (1<<15));
     MmioDelay(150);
 
-    // -- write 0 to make sure the above changes take effect
+    // -- write 0 to make sure the above changes take effect (see BCM2835 documentation for GPPUD)
     MmioWrite(GPPUDCLK0, 0x00000000);
 
     // -- clear any pending interrupts
@@ -43,15 +43,15 @@ void UartInit(void)
     //    the rpi3 is system clock dependent, so let's set it to be 3MHz so we can get the baud we want
     //    ---------------------------------------------------------------------------------------------
     volatile unsigned int __attribute__((aligned(16))) mbox[9] = {
-        9 * 4,
-        0,
-        0x38002,
-        12,
-        8,
-        2,
-        3000000,                        // -- desired clock frequency?
-        0,
-        0,
+        9 * 4,                          // -- buffer size in bytes
+        0,                              // -- request code 0 = process request
+        0x38002,                        // -- set clock rate tag
+        12,                             // -- tag size in bytes
+        8,                              // -- response size?
+        2,                              // -- clock ID: UART
+        3000000,                        // -- desired clock frequency
+        0,                              // -- skip setting turbo
+        0,                              // -- end of message
     };
 
     unsigned int r = (unsigned int)(((((unsigned long)(&mbox) & 0xffffffff)) & ~0xf) | 8);

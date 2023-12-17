@@ -5,7 +5,7 @@
 ##
 ##      Date     Tracker  Version  Description
 ##  -----------  -------  -------  ---------------------------------------------------------------------------------
-##  2023-Feb-28  Initial  v0.0.1   Initial Version
+##  2023-Dec-14  Initial  v0.0.1   Initial Version
 ##===================================================================================================================
 
 
@@ -13,4 +13,9 @@ all:
 	tup
 
 run: all
-	qemu-system-aarch64 -M raspi3b -serial stdio -kernel bin/kernel8.img
+	qemu-system-aarch64 -machine raspi3b -serial stdio -kernel bin/kernel8.img
+
+debug: all
+	qemu-system-aarch64 -machine raspi3b -serial mon:stdio -kernel bin/kernel8.img -D ./debug.txt -d in_asm,int,exec,op,cpu,cpu_reset,unimp
+
+

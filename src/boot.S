@@ -1,5 +1,5 @@
 //===================================================================================================================
-//  boot.S -- This is the entry point into the Logic Analyzer
+//  boot.S -- This is the entry point for all cores into the Logic Analyzer
 //
 //      Copyright (c) 2023 - Adam Clark
 //      License: Beerware
@@ -15,7 +15,10 @@
 
 
 // -- make the start global
-.global     _start
+.global     _start0
+.global     _start1
+.global     _start2
+.global     _start3
 
 
 // -- set the starting point for this code
@@ -30,9 +33,9 @@
 //    x3 -> 0
 //    x4 -> 32 bit kernel entry point, _start location
 //    ------------------------------------------------------------
-_start:
+_start0:
     // -- set stack before this code
-    ldr     x5,=_start
+    ldr     x5,=_start0
     mov     sp,x5
 
 
@@ -45,10 +48,47 @@ _start:
     cbnz    w6,1b                               // if non-zero, repeat
 
     // -- jump to the C code, should never return
-2:  b       kernel_main                         // direct jump to kernel_main
+2:  b       Core0Main                           // direct jump to kernel_main
 
     // -- just in case, halt this core
 halt:
     wfe                                         // wait for event
+
+
+
+//
+// -- This is the entry point for core 1
+//    ----------------------------------
+_start1:
+    mov     x5,#0x70000
+    mov     sp,x5
+
+    b       Core1Main
+    b       halt
+
+
+
+//
+// -- This is the entry point for core 2
+//    ----------------------------------
+_start2:
+    mov     x5,#0x60000
+    mov     sp,x5
+
+    b       Core2Main
+    b       halt
+
+
+
+//
+// -- This is the entry point for core 3
+//    ----------------------------------
+_start3:
+    mov     x5,#0x50000
+    mov     sp,x5
+
+    b       Core3Main
+    b       halt
+
 
 

@@ -2,6 +2,7 @@
 .vscode
 
 obj/*.o
+*.txt
 
 bin/la-rpi3.elf
 bin/kernel8.img

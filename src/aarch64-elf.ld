@@ -1,4 +1,4 @@
-ENTRY(_start)
+ENTRY(_start0)
 
 SECTIONS {
     /* Starts at LOADER_ADDR. */
